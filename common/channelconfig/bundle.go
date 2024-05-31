@@ -7,6 +7,8 @@ SPDX-License-Identifier: Apache-2.0
 package channelconfig
 
 import (
+	"runtime/debug"
+
 	cb "github.com/hyperledger/fabric-protos-go/common"
 	"github.com/hyperledger/fabric/bccsp"
 	"github.com/hyperledger/fabric/common/cauthdsl"
@@ -180,6 +182,8 @@ func NewBundleFromEnvelope(env *cb.Envelope, bccsp bccsp.BCCSP) (*Bundle, error)
 
 // NewBundle creates a new immutable bundle of configuration
 func NewBundle(channelID string, config *cb.Config, bccsp bccsp.BCCSP) (*Bundle, error) {
+	logger.Warnf("Building bundle for channel [%s] [%s] [%v]", channelID, config, *config)
+	debug.PrintStack()
 	if err := preValidate(config); err != nil {
 		return nil, err
 	}
