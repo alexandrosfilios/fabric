@@ -9,10 +9,14 @@ package msp
 import (
 	"crypto"
 	"crypto/rand"
+	"crypto/sha256"
 	"crypto/x509"
+	"encoding/base64"
 	"encoding/hex"
 	"encoding/pem"
 	"fmt"
+	"reflect"
+	"runtime/debug"
 	"sync"
 	"time"
 
@@ -20,6 +24,7 @@ import (
 	"github.com/hyperledger/fabric-protos-go/msp"
 	"github.com/hyperledger/fabric/bccsp"
 	"github.com/hyperledger/fabric/common/flogging"
+	"github.com/hyperledger/fabric/internal/cryptogen/csp"
 	"github.com/pkg/errors"
 	"go.uber.org/zap/zapcore"
 )
@@ -274,8 +279,37 @@ func (id *signingidentity) Sign(msg []byte) ([]byte, error) {
 	mspIdentityLogger.Debugf("Sign: digest: %X \n", digest)
 
 	// Sign
-	return id.signer.Sign(rand.Reader, digest, nil)
+	sigma, err := id.signer.Sign(rand.Reader, digest, nil)
+	mspIdentityLogger.Infof("Sign message:\n\tMessage: [%d] [%s]\n\tDigest: [%s]\n\tSigma: [%s]\n\tKey: [%v] [%v]", len(msg), Hashable(msg), Hashable(digest), Hashable(sigma), reflect.TypeOf(id.signer.Public()), id.signer.Public())
+	switch s := id.signer.(type) {
+	case *csp.ECDSASigner:
+		mspIdentityLogger.Infof("Found ecdsa signer: [%s:%s:%s]", s.PrivateKey.Curve.Params().Name, s.PrivateKey.X, s.PrivateKey.Y)
+	}
+	debug.PrintStack()
+
+	return sigma, err
 }
+
+type Hashable []byte
+
+func (id Hashable) Raw() []byte {
+	if len(id) == 0 {
+		return nil
+	}
+	hash := sha256.New()
+	n, err := hash.Write(id)
+	if n != len(id) {
+		panic("hash failure")
+	}
+	if err != nil {
+		panic(err)
+	}
+	return hash.Sum(nil)
+}
+
+func (id Hashable) String() string { return base64.StdEncoding.EncodeToString(id.Raw()) }
+
+func (id Hashable) RawString() string { return string(id.Raw()) }
 
 // GetPublicVersion returns the public version of this identity,
 // namely, the one that is only able to verify messages and not sign them
