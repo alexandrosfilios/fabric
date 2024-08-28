@@ -71,9 +71,9 @@ type ServerConfig struct {
 	// ServerStatsHandler should be set if metrics on connections are to be reported.
 	ServerStatsHandler *ServerStatsHandler
 	// Maximum message size the server can receive
-	MaxRecvMsgSize int
+	MaxRecvMsgSize int64
 	// Maximum message size the server can send
-	MaxSendMsgSize int
+	MaxSendMsgSize int64
 }
 
 // ClientConfig defines the parameters for configuring a GRPCClient instance
@@ -88,9 +88,9 @@ type ClientConfig struct {
 	// AsyncConnect makes connection creation non blocking
 	AsyncConnect bool
 	// Maximum message size the client can receive
-	MaxRecvMsgSize int
+	MaxRecvMsgSize int64
 	// Maximum message size the client can send
-	MaxSendMsgSize int
+	MaxSendMsgSize int64
 }
 
 // Convert the ClientConfig to the approriate set of grpc.DialOptions.
@@ -112,11 +112,11 @@ func (cc ClientConfig) DialOptions() ([]grpc.DialOption, error) {
 	// set send/recv message size to package defaults
 	maxRecvMsgSize := DefaultMaxRecvMsgSize
 	if cc.MaxRecvMsgSize != 0 {
-		maxRecvMsgSize = cc.MaxRecvMsgSize
+		maxRecvMsgSize = int(cc.MaxRecvMsgSize)
 	}
 	maxSendMsgSize := DefaultMaxSendMsgSize
 	if cc.MaxSendMsgSize != 0 {
-		maxSendMsgSize = cc.MaxSendMsgSize
+		maxSendMsgSize = int(cc.MaxSendMsgSize)
 	}
 	dialOpts = append(dialOpts, grpc.WithDefaultCallOptions(
 		grpc.MaxCallRecvMsgSize(maxRecvMsgSize),

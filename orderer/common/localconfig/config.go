@@ -48,8 +48,8 @@ type General struct {
 	LocalMSPID        string
 	BCCSP             *bccsp.FactoryOpts
 	Authentication    Authentication
-	MaxRecvMsgSize    int32
-	MaxSendMsgSize    int32
+	MaxRecvMsgSize    int64
+	MaxSendMsgSize    int64
 }
 
 type Cluster struct {

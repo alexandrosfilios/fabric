@@ -446,10 +446,10 @@ func GetServerConfig() (comm.ServerConfig, error) {
 	serverConfig.MaxSendMsgSize = comm.DefaultMaxSendMsgSize
 
 	if viper.IsSet("peer.maxRecvMsgSize") {
-		serverConfig.MaxRecvMsgSize = int(viper.GetInt32("peer.maxRecvMsgSize"))
+		serverConfig.MaxRecvMsgSize = viper.GetInt64("peer.maxRecvMsgSize")
 	}
 	if viper.IsSet("peer.maxSendMsgSize") {
-		serverConfig.MaxSendMsgSize = int(viper.GetInt32("peer.maxSendMsgSize"))
+		serverConfig.MaxSendMsgSize = viper.GetInt64("peer.maxSendMsgSize")
 	}
 	return serverConfig, nil
 }

@@ -323,11 +323,11 @@ func configFromEnv(prefix string) (address string, clientConfig comm.ClientConfi
 	clientConfig.SecOpts = secOpts
 	clientConfig.MaxRecvMsgSize = comm.DefaultMaxRecvMsgSize
 	if viper.IsSet(prefix + ".maxRecvMsgSize") {
-		clientConfig.MaxRecvMsgSize = int(viper.GetInt32(prefix + ".maxRecvMsgSize"))
+		clientConfig.MaxRecvMsgSize = viper.GetInt64(prefix + ".maxRecvMsgSize")
 	}
 	clientConfig.MaxSendMsgSize = comm.DefaultMaxSendMsgSize
 	if viper.IsSet(prefix + ".maxSendMsgSize") {
-		clientConfig.MaxSendMsgSize = int(viper.GetInt32(prefix + ".maxSendMsgSize"))
+		clientConfig.MaxSendMsgSize = viper.GetInt64(prefix + ".maxSendMsgSize")
 	}
 	return
 }

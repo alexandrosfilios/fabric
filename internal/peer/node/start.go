@@ -1169,11 +1169,11 @@ func secureDialOpts(credSupport *comm.CredentialSupport) func() []grpc.DialOptio
 		// set max send/recv msg sizes
 		maxRecvMsgSize := comm.DefaultMaxRecvMsgSize
 		if viper.IsSet("peer.maxRecvMsgSize") {
-			maxRecvMsgSize = int(viper.GetInt32("peer.maxRecvMsgSize"))
+			maxRecvMsgSize = int(viper.GetInt64("peer.maxRecvMsgSize"))
 		}
 		maxSendMsgSize := comm.DefaultMaxSendMsgSize
 		if viper.IsSet("peer.maxSendMsgSize") {
-			maxSendMsgSize = int(viper.GetInt32("peer.maxSendMsgSize"))
+			maxSendMsgSize = int(viper.GetInt64("peer.maxSendMsgSize"))
 		}
 		dialOpts = append(
 			dialOpts,

@@ -128,11 +128,11 @@ func NewGRPCServerFromListener(listener net.Listener, serverConfig ServerConfig)
 	// set max send and recv msg sizes
 	maxSendMsgSize := DefaultMaxSendMsgSize
 	if serverConfig.MaxSendMsgSize != 0 {
-		maxSendMsgSize = serverConfig.MaxSendMsgSize
+		maxSendMsgSize = int(serverConfig.MaxSendMsgSize)
 	}
 	maxRecvMsgSize := DefaultMaxRecvMsgSize
 	if serverConfig.MaxRecvMsgSize != 0 {
-		maxRecvMsgSize = serverConfig.MaxRecvMsgSize
+		maxRecvMsgSize = int(serverConfig.MaxRecvMsgSize)
 	}
 	serverOpts = append(serverOpts, grpc.MaxSendMsgSize(maxSendMsgSize))
 	serverOpts = append(serverOpts, grpc.MaxRecvMsgSize(maxRecvMsgSize))
