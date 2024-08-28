@@ -316,18 +316,7 @@ func (r *Registrar) BroadcastChannelSupport(msg *cb.Envelope) (*cb.ChannelHeader
 		return chdr, false, nil, types.ErrChannelNotExist
 	}
 
-	isConfig := false
-	switch cs.ClassifyMsg(chdr) {
-	case msgprocessor.ConfigUpdateMsg:
-		isConfig = true
-	case msgprocessor.ConfigMsg:
-		return chdr, false, nil, errors.New("message is of type that cannot be processed directly")
-	case msgprocessor.UnsupportedMsg:
-		return chdr, false, nil, errors.New("message is of type that is no longer supported")
-	default:
-	}
-
-	return chdr, isConfig, cs, nil
+	return chdr, false, cs, nil
 }
 
 // GetConsensusChain retrieves the consensus.Chain of the channel, if it exists.

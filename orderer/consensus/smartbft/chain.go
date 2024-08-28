@@ -323,16 +323,8 @@ func (c *BFTChain) submit(env *cb.Envelope, configSeq uint64) error {
 // If the configSeq advances, it is the responsibility of the consenter
 // to revalidate and potentially discard the message
 // The consenter may return an error, indicating the message was not accepted
-func (c *BFTChain) Order(env *cb.Envelope, configSeq uint64) error {
-	seq := c.support.Sequence()
-	if configSeq < seq {
-		c.Logger.Warnf("Normal message was validated against %d, although current config seq has advanced (%d)", configSeq, seq)
-		if _, err := c.support.ProcessNormalMsg(env); err != nil {
-			return errors.Errorf("bad normal message: %s", err)
-		}
-	}
-
-	return c.submit(env, configSeq)
+func (c *BFTChain) Order(env *cb.Envelope, _ uint64) error {
+	return c.submit(env, 0)
 }
 
 // Configure accepts a message which reconfigures the channel and will
