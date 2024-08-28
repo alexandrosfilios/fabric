@@ -4,7 +4,7 @@ Copyright IBM Corp. 2017 All Rights Reserved.
 SPDX-License-Identifier: Apache-2.0
 */
 
-package main
+package configtxgen
 
 import (
 	"flag"
@@ -214,7 +214,7 @@ func dirExists(path string) (bool, error) {
 	return false, err
 }
 
-func main() {
+func Main() {
 	var outputBlock, outputChannelCreateTx, channelCreateTxBaseProfile, profile, configPath, channelID, inspectBlock, inspectChannelCreateTx, outputAnchorPeersUpdate, asOrg, printOrg string
 
 	flag.StringVar(&outputBlock, "outputBlock", "", "The path to write the genesis block to (if set)")

@@ -4,7 +4,7 @@ Copyright IBM Corp. All Rights Reserved.
 SPDX-License-Identifier: Apache-2.0
 */
 
-package main
+package osnadmin
 
 import (
 	"bytes"
@@ -23,7 +23,7 @@ import (
 	"gopkg.in/alecthomas/kingpin.v2"
 )
 
-func main() {
+func Main() {
 	kingpin.Version("0.0.1")
 
 	output, exit, err := executeForArgs(os.Args[1:])

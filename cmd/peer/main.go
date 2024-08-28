@@ -4,7 +4,7 @@ Copyright IBM Corp. All Rights Reserved.
 SPDX-License-Identifier: Apache-2.0
 */
 
-package main
+package peer
 
 import (
 	_ "net/http/pprof"
@@ -27,7 +27,7 @@ import (
 // defaults to printing the help message.
 var mainCmd = &cobra.Command{Use: "peer"}
 
-func main() {
+func Main() {
 	// For environment variables.
 	viper.SetEnvPrefix(common.CmdRoot)
 	viper.AutomaticEnv()
