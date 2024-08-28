@@ -130,6 +130,7 @@ func (up *UnpackedProposal) Validate(idDeserializer msp.IdentityDeserializer) er
 	switch common.HeaderType(up.ChannelHeader.Type) {
 	case common.HeaderType_ENDORSER_TRANSACTION:
 	case common.HeaderType_CONFIG:
+	case common.HeaderType_MESSAGE:
 		// The CONFIG transaction type has _no_ business coming to the propose API.
 		// In fact, anything coming to the Propose API is by definition an endorser
 		// transaction, so any other header type seems like it ought to be an error... oh well.
